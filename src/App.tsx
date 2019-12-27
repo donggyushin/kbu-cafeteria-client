@@ -1,26 +1,47 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux'
+import { IState } from './types';
+import PrivateComponent from './components/private/privateComponent';
+import PublicComponent from './components/public/publicComponent';
 
-const App: React.FC = () => {
+interface Props {
+  isLoggedIn: boolean
+}
+
+class AppContainer extends React.Component<Props> {
+
+
+
+  render() {
+    const {
+      isLoggedIn
+    } = this.props;
+    return <App
+      isLoggedIn={isLoggedIn}
+    />
+  }
+}
+
+interface PresenterProps {
+  isLoggedIn: boolean
+}
+
+const App: React.FC<PresenterProps> = ({
+  isLoggedIn
+}) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {isLoggedIn ? <PrivateComponent /> : <PublicComponent />}
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state: IState) => {
+  return {
+    isLoggedIn: state.user.isLoggedIn
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  {})(AppContainer);
