@@ -1,5 +1,5 @@
 import { IUser } from "../types"
-import { USER_LOGIN } from "../actions/types"
+import { USER_LOGIN, USER_LOGOUT } from "../actions/types"
 
 interface IAction {
     type: string,
@@ -19,8 +19,21 @@ export default function (state: IUser = initialState, action: IAction) {
     switch (action.type) {
         case USER_LOGIN:
             return userLoginReducer(state, action)
+        case USER_LOGOUT:
+            return userLogoutReducer(state, action)
         default:
             return state
+    }
+}
+
+const userLogoutReducer = (state: IUser, action: IAction): IUser => {
+    window.localStorage.removeItem('tk')
+    return {
+        ...state,
+        isLoggedIn: false,
+        email: "",
+        name: "",
+        phone: ""
     }
 }
 

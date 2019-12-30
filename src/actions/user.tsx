@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import { IUser } from "../types";
 import axios from 'axios'
 import { KBU_CAFETERIA_SERVER } from "../consts";
-import { USER_LOGIN, TURN_ON_LOADING, TURN_DOWN_LOADING } from "./types";
+import { USER_LOGIN, TURN_ON_LOADING, TURN_DOWN_LOADING, USER_LOGOUT } from "./types";
 import { turnOnLoading, turnDownLoading } from "./loading";
 
 interface IDispatch {
@@ -18,6 +18,12 @@ interface ILoginResponse {
     token: string
     user: IUser
 
+}
+
+export const userLogout = () => (dispatch: Dispatch<IDispatch>) => {
+    dispatch({
+        type: USER_LOGOUT
+    })
 }
 
 export const userLogin = (email: string, password: string) => (dispatch: Dispatch<IDispatch>) => {
