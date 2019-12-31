@@ -1,3 +1,17 @@
+export interface IDinner {
+    menus: string[]
+}
+
+export interface ILunch {
+    menus: string[]
+}
+
+export interface IMenu {
+    day: number
+    lunch: ILunch
+    dinner: IDinner
+}
+
 export interface IUser {
     isLoggedIn: boolean
     email: string
@@ -12,4 +26,5 @@ export interface ILoading {
 export interface IState {
     user: IUser,
     loading: ILoading
+    menus: IMenu[]
 }
