@@ -7,7 +7,7 @@ import { IMenu } from '../../../../types'
 interface IProps {
     offdays: number
     menuObjects: IMenu[]
-    onClickCell: (day: number) => void
+    onClickCell: (id: string) => void
 }
 
 const Container = styled.div`
@@ -24,17 +24,18 @@ const Presenter: React.FC<IProps> = ({
     const grayCells = []
 
     for (let index = 0; index < offdays; index++) {
-        grayCells.push(<GrayCell />)
+        grayCells.push(<GrayCell key={index} />)
     }
 
 
     return <Container>
         {grayCells}
         {menuObjects.map(menu => {
+
             return <WhiteCell
                 onClickCell={onClickCell}
                 menu={menu}
-                key={menu.day} />
+                key={menu._id} />
         })}
     </Container>
 }

@@ -4,7 +4,7 @@ import { IMenu } from '../../../../../types'
 
 interface IProps {
     menu: IMenu
-    onClickCell: (day: number) => void
+    onClickCell: (id: string) => void
 }
 
 const Container = styled.div`
@@ -56,7 +56,7 @@ const Presenter: React.FC<IProps> = ({
 }) => {
     return <Container
         onClick={() => {
-            onClickCell(menu.day)
+            onClickCell(menu._id)
         }}
         className={'cell'}>
         <Day>
@@ -67,16 +67,16 @@ const Presenter: React.FC<IProps> = ({
                 <LunchLabel>
                     중식
                 </LunchLabel>
-                {menu.lunch.menus.map(menuText => {
-                    return <Menu>{menuText}</Menu>
+                {menu.lunch.menus.map((menuText, i) => {
+                    return <Menu key={i}>{menuText}</Menu>
                 })}
             </Column>
             <Column>
                 <DinnerLabel>
                     석식
                 </DinnerLabel>
-                {menu.dinner.menus.map(menuText => {
-                    return <Menu>{menuText}</Menu>
+                {menu.dinner.menus.map((menuText, i) => {
+                    return <Menu key={i}>{menuText}</Menu>
                 })}
             </Column>
         </InnerContainer>

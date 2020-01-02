@@ -1,13 +1,15 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import user from './user'
+import menu from './menu'
 import loading from './loading'
 
 const intialState = {}
 
 const allReducers = combineReducers({
     user,
-    loading
+    loading,
+    menu
 })
 
 

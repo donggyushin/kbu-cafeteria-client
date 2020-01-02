@@ -8,7 +8,6 @@ interface IDispatch {
 
 
 export const turnOnLoading = () => (dispatch: Dispatch<IDispatch>) => {
-    console.log('turnOnLoading')
     dispatch({
         type: TURN_ON_LOADING
     })

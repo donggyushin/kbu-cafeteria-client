@@ -1,15 +1,25 @@
 export interface IDinner {
+    _id: string
     menus: string[]
 }
 
 export interface ILunch {
+    _id: string
     menus: string[]
 }
 
 export interface IMenu {
+    _id: string
+    year: number
+    month: number
     day: number
     lunch: ILunch
     dinner: IDinner
+}
+
+export interface IMenuReducerProps {
+    menus: IMenu[]
+    loading: boolean
 }
 
 export interface IUser {
@@ -26,5 +36,5 @@ export interface ILoading {
 export interface IState {
     user: IUser,
     loading: ILoading
-    menus: IMenu[]
+    menu: IMenuReducerProps
 }

@@ -1,34 +1,49 @@
 import React from 'react'
 import Presenter from './presenter'
-import { IMenu } from '../../../types'
+import { IMenu, IState, ILunch } from '../../../types'
+import { connect } from 'react-redux'
+import { fetchMenus } from '../../../actions/menu'
 
 interface IStateTypes {
     year: number
     month: number
     days: number
     offdays: number
-    menuObjects: IMenu[]
     form: boolean
     selectedCell: IMenu
+    newLunch: string
+    newDinner: string
 }
 
-class Container extends React.Component {
+interface IProps {
+    fetchMenus: (year: number, month: number) => void
+    menus: IMenu[]
+    loading: boolean
+}
+
+class Container extends React.Component<IProps> {
     state: IStateTypes = {
         year: new Date().getFullYear(),
         month: new Date().getMonth(),
         days: 0,
         offdays: 0,
-        menuObjects: [],
         form: false,
         selectedCell: {
+            _id: "",
             day: 0,
+            year: 0,
+            month: 0,
             dinner: {
+                _id: "",
                 menus: []
             },
             lunch: {
+                _id: "",
                 menus: []
             }
-        }
+        },
+        newLunch: "",
+        newDinner: ""
     }
 
     componentDidMount() {
@@ -45,60 +60,101 @@ class Container extends React.Component {
             year,
             month,
             offdays,
-            menuObjects,
             form,
-            selectedCell
+            selectedCell,
+            newLunch,
+            newDinner
         } = this.state
         const {
-            onClickCell
+            onClickCell,
+            xbuttonClicked,
+            addNewMenu,
+            handleNewMenuInput
         } = this;
+        const {
+            menus,
+            loading
+        } = this.props;
         return <Presenter
             year={year}
             month={month}
             offdays={offdays}
-            menuObjects={menuObjects}
+            menuObjects={menus}
             onClickCell={onClickCell}
             form={form}
             selectedCell={selectedCell}
+            loading={loading}
+            xbuttonClicked={xbuttonClicked}
+            addNewMenu={addNewMenu}
+            newLunch={newLunch}
+            newDinner={newDinner}
+            handleNewMenuInput={handleNewMenuInput}
         />
     }
 
-    onClickCell = (day: number): void => {
-        const { menuObjects } = this.state
-        const clickedCells: IMenu[] = menuObjects.filter(menu => {
-            if (menu.day === day) return true
-        })
-        const clickedCell: IMenu = clickedCells[0]
+    handleNewMenuInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const name: string = event.target.name
+        const value: string = event.target.value
         this.setState({
-            form: true,
-            selectedCell: clickedCell
+            [name]: value
         })
     }
 
-    setMenuObjects = (days: number) => {
+    addNewMenu = (event: React.KeyboardEvent<HTMLInputElement>, name: string) => {
+        const key = event.key
+        const { selectedCell } = this.state
+        if (key === 'Enter') {
+            // 새로운 메뉴 추가
+            console.log("Enter Clicked")
+            console.log('name: ', name)
+            console.log('selected menu: ', selectedCell)
 
-        const menuObjects: IMenu[] = []
 
-        for (let index = 0; index < days + 1; index++) {
+            this.setState({
+                newLunch: "",
+                newDinner: ""
+            })
+        }
+    }
 
-            const menuObject: IMenu = {
-                day: index + 1,
-                lunch: {
+    xbuttonClicked = (): void => {
+        this.setState({
+            form: false,
+            selectedCell: {
+                _id: "",
+                day: 0,
+                year: 0,
+                month: 0,
+                dinner: {
+                    _id: "",
                     menus: []
                 },
-                dinner: {
+                lunch: {
+                    _id: "",
                     menus: []
                 }
             }
-
-            menuObjects.push(menuObject)
-
-        }
-
-        this.setState({
-            menuObjects
         })
+    }
 
+    onClickCell = (id: string): void => {
+
+        const clickedCells: IMenu[] = this.props.menus.filter(menu => {
+            if (menu._id === id) {
+                return true
+            } else {
+                return false
+            }
+        })
+        const clickedCell: IMenu = clickedCells[0]
+        this.setState({
+            selectedCell: clickedCell,
+            form: true
+        })
+    }
+
+    setMenuObjects = (year: number, month: number) => {
+        this.props.fetchMenus(year, month)
     }
 
     setDaysAndOffDays = (year: number, month: number): void => {
@@ -115,7 +171,8 @@ class Container extends React.Component {
             offdays
         })
 
-        this.setMenuObjects(days)
+        this.setMenuObjects(year, month)
+
     }
 
     getOffDays = (dayOfWeek: string): number => {
@@ -152,4 +209,13 @@ class Container extends React.Component {
     }
 }
 
-export default Container
+const mapStateToProps = (state: IState) => {
+    return {
+        menus: state.menu.menus,
+        loading: state.menu.loading
+    }
+}
+
+export default connect(mapStateToProps, {
+    fetchMenus
+})(Container)

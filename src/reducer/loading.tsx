@@ -31,7 +31,6 @@ const turnDownLoadingReducer = (state: ILoading, action: IAction): ILoading => {
 }
 
 const turnOnLoadingReducer = (state: ILoading, action: IAction): ILoading => {
-    console.log('asd')
     return {
         ...state,
         loading: true
