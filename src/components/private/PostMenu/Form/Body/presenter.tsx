@@ -1,16 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import BodyHeader from './Header'
 import { IMenu } from '../../../../../types'
 import Form from './Form'
 import List from './List'
 
 interface IProps {
     menu: IMenu
-    addNewMenu: (event: React.KeyboardEvent<HTMLInputElement>, name: string) => void
+    addNewMenu: (event: React.KeyboardEvent<HTMLDivElement>, name: string) => void
     newLunch: string
     newDinner: string
     handleNewMenuInput: (event: React.ChangeEvent<HTMLInputElement>) => void
+    deleteMenu: (name: string, index: number) => void
 }
 
 const Container = styled.div`
@@ -28,10 +28,10 @@ const Presenter: React.FC<IProps> = ({
     addNewMenu,
     newLunch,
     newDinner,
-    handleNewMenuInput
+    handleNewMenuInput,
+    deleteMenu
 }) => {
     return <Container>
-        <BodyHeader />
         <Form
             addNewMenu={addNewMenu}
             newLunch={newLunch}
@@ -39,8 +39,15 @@ const Presenter: React.FC<IProps> = ({
             handleNewMenuInput={handleNewMenuInput}
         />
         <ListContainer>
-            <List menus={menu.lunch.menus} />
-            <List menus={menu.dinner.menus} />
+            <List
+                menus={menu.lunch.menus}
+                deleteMenu={deleteMenu}
+                name={'lunch'}
+            />
+            <List menus={menu.dinner.menus}
+                deleteMenu={deleteMenu}
+                name={'dinner'}
+            />
         </ListContainer>
     </Container>
 }

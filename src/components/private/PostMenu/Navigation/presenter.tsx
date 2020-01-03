@@ -4,6 +4,8 @@ import styled from 'styled-components'
 interface IProps {
     year: number
     month: number
+    rightArrowClicked: () => void
+    leftArrowClicked: () => void
 }
 
 const Container = styled.div`
@@ -43,14 +45,22 @@ const Month = styled.div`
 
 const Presenter: React.FC<IProps> = ({
     year,
-    month
+    month,
+    rightArrowClicked,
+    leftArrowClicked
 }) => {
     return <Container>
         <Year>{year}</Year>
         <Row>
-            <LeftArrow className={'fas fa-chevron-left'} />
+            <LeftArrow
+                className={'fas fa-chevron-left'}
+                onClick={leftArrowClicked}
+            />
             <Month>{month + 1}</Month>
-            <RightArrow className={'fas fa-chevron-right'} />
+            <RightArrow
+                className={'fas fa-chevron-right'}
+                onClick={rightArrowClicked}
+            />
         </Row>
     </Container>
 }

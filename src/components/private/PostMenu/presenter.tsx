@@ -16,10 +16,14 @@ interface IProps {
     selectedCell: IMenu
     loading: boolean
     xbuttonClicked: () => void
-    addNewMenu: (event: React.KeyboardEvent<HTMLInputElement>, name: string) => void
+    addNewMenu: (event: React.KeyboardEvent<HTMLDivElement>, name: string) => void
     newLunch: string
     newDinner: string
     handleNewMenuInput: (event: React.ChangeEvent<HTMLInputElement>) => void
+    deleteMenu: (name: string, index: number) => void
+    submitButtonClicked: () => void
+    rightArrowClicked: () => void
+    leftArrowClicked: () => void
 }
 
 const Container = styled.div`
@@ -43,12 +47,18 @@ const Presenter: React.FC<IProps> = ({
     addNewMenu,
     newDinner,
     newLunch,
-    handleNewMenuInput
+    handleNewMenuInput,
+    deleteMenu,
+    submitButtonClicked,
+    rightArrowClicked,
+    leftArrowClicked
 }) => {
     return <Container>
         <Navigation
             year={year}
             month={month}
+            rightArrowClicked={rightArrowClicked}
+            leftArrowClicked={leftArrowClicked}
         />
         <CalendarHeader
         />
@@ -65,6 +75,8 @@ const Presenter: React.FC<IProps> = ({
             newDinner={newDinner}
             newLunch={newLunch}
             handleNewMenuInput={handleNewMenuInput}
+            deleteMenu={deleteMenu}
+            submitButtonClicked={submitButtonClicked}
         />}
     </Container>
 }

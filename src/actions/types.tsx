@@ -10,3 +10,4 @@ export const USER_LOGOUT = 'USER_LOGOUT'
 
 // Menu 와 관련된 reducer action types 
 export const FETCH_MENUS = 'FETCH_MENUS'
+export const PUT_NEW_MENU = 'PUT_NEW_MENU'

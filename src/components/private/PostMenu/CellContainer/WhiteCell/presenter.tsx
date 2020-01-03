@@ -38,6 +38,7 @@ const LunchLabel = styled.div`
     border-radius: 5px;
     padding: 2px;
     font-size: 12px;
+    margin-bottom:4px;
 `
 
 const DinnerLabel = styled.div`
@@ -46,9 +47,13 @@ const DinnerLabel = styled.div`
     border-radius: 5px;
     padding: 2px;
     font-size: 12px;
+    margin-bottom:4px;
 `
 
-const Menu = styled.div``
+const Menu = styled.div`
+    font-size:11px;
+    color:gray;
+`
 
 const Presenter: React.FC<IProps> = ({
     menu,

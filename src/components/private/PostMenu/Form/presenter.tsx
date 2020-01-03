@@ -3,14 +3,17 @@ import styled from 'styled-components'
 import { IMenu } from '../../../../types'
 import FormHeader from './Header'
 import FormBody from './Body'
+import { Button } from '@material-ui/core'
 
 interface IProps {
     selectedCell: IMenu
     xbuttonClicked: () => void
-    addNewMenu: (event: React.KeyboardEvent<HTMLInputElement>, name: string) => void
+    addNewMenu: (event: React.KeyboardEvent<HTMLDivElement>, name: string) => void
     newLunch: string
     newDinner: string
     handleNewMenuInput: (event: React.ChangeEvent<HTMLInputElement>) => void
+    deleteMenu: (name: string, index: number) => void
+    submitButtonClicked: () => void
 }
 
 const Container = styled.div`
@@ -28,12 +31,19 @@ const Container = styled.div`
 
 const Card = styled.div`
     width:500px;
-    height:500px;
+    height:650px;
     background:white;
     border-radius:7px;
     display:flex;
     flex-direction:column;
     align-items:center;
+    position: relative;
+`
+
+const SubmitButtonContainer = styled.div`
+    position:absolute;
+    bottom:50px;
+    
 `
 
 const Presenter: React.FC<IProps> = ({
@@ -42,9 +52,10 @@ const Presenter: React.FC<IProps> = ({
     addNewMenu,
     newLunch,
     newDinner,
-    handleNewMenuInput
+    handleNewMenuInput,
+    deleteMenu,
+    submitButtonClicked
 }) => {
-    console.log(selectedCell)
     return <Container>
         <Card>
             <FormHeader
@@ -59,7 +70,18 @@ const Presenter: React.FC<IProps> = ({
                 newLunch={newLunch}
                 newDinner={newDinner}
                 handleNewMenuInput={handleNewMenuInput}
+                deleteMenu={deleteMenu}
             />
+            <SubmitButtonContainer>
+                <Button
+                    onClick={submitButtonClicked}
+                    variant="outlined"
+                    color="secondary"
+                >
+                    제출하기
+            </Button>
+            </SubmitButtonContainer>
+
         </Card>
     </Container>
 }

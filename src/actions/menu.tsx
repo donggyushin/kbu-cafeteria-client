@@ -2,11 +2,56 @@ import { IMenu } from "../types";
 import { Dispatch } from "react";
 import axios from 'axios'
 import { KBU_CAFETERIA_SERVER } from "../consts";
-import { TURN_ON_LOADING, FETCH_MENUS, TURN_DOWN_LOADING } from "./types";
+import { TURN_ON_LOADING, FETCH_MENUS, TURN_DOWN_LOADING, PUT_NEW_MENU } from "./types";
 
-interface IDispatch {
+interface IPutNewMenuDispatch {
+    type: string
+    menu?: IMenu
+}
+
+interface IPutNewMenuResponse {
+    ok: boolean
+    error: string
+    menu: IMenu
+}
+
+export const putNewMenu = (menu: IMenu) => (dispatch: Dispatch<IPutNewMenuDispatch>) => {
+    dispatch({
+        type: TURN_ON_LOADING
+    })
+    axios.put(`${KBU_CAFETERIA_SERVER}menu`, {
+        menu
+    })
+        .then(res => res.data)
+        .then((data: IPutNewMenuResponse) => {
+            const { ok, error, menu } = data
+            if (ok) {
+                dispatch({
+                    type: PUT_NEW_MENU,
+                    menu
+                })
+            } else {
+                console.error(`Error occured at [${__dirname}]: ${error}`)
+                alert(error)
+                window.location.href = '/'
+            }
+        })
+        .catch(err => {
+            console.error(`Error occured at [${__dirname}]: ${err}`)
+            alert(err.message)
+            window.location.href = '/'
+        })
+    dispatch({
+        type: TURN_DOWN_LOADING
+    })
+}
+
+
+
+interface IFetchMenusDispatch {
     type: string
     menus: IMenu[]
+
 }
 
 interface IFetchMenusResponseData {
@@ -15,7 +60,7 @@ interface IFetchMenusResponseData {
     menus: IMenu[]
 }
 
-export const fetchMenus = (year: number, month: number) => (dispatch: Dispatch<IDispatch>) => {
+export const fetchMenus = (year: number, month: number) => (dispatch: Dispatch<IFetchMenusDispatch>) => {
     dispatch({
         type: TURN_ON_LOADING,
         menus: []

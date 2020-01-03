@@ -2,7 +2,7 @@ import React from 'react'
 import Presenter from './presenter'
 import { IMenu, IState, ILunch } from '../../../types'
 import { connect } from 'react-redux'
-import { fetchMenus } from '../../../actions/menu'
+import { fetchMenus, putNewMenu } from '../../../actions/menu'
 
 interface IStateTypes {
     year: number
@@ -19,6 +19,7 @@ interface IProps {
     fetchMenus: (year: number, month: number) => void
     menus: IMenu[]
     loading: boolean
+    putNewMenu: (menu: IMenu) => void
 }
 
 class Container extends React.Component<IProps> {
@@ -69,7 +70,11 @@ class Container extends React.Component<IProps> {
             onClickCell,
             xbuttonClicked,
             addNewMenu,
-            handleNewMenuInput
+            handleNewMenuInput,
+            deleteMenu,
+            submitButtonClicked,
+            rightArrowClicked,
+            leftArrowClicked
         } = this;
         const {
             menus,
@@ -89,7 +94,35 @@ class Container extends React.Component<IProps> {
             newLunch={newLunch}
             newDinner={newDinner}
             handleNewMenuInput={handleNewMenuInput}
+            deleteMenu={deleteMenu}
+            submitButtonClicked={submitButtonClicked}
+            rightArrowClicked={rightArrowClicked}
+            leftArrowClicked={leftArrowClicked}
         />
+    }
+
+    submitButtonClicked = () => {
+        const menuObject: IMenu = this.state.selectedCell
+
+        this.props.putNewMenu(menuObject)
+
+        this.setState({
+            form: false,
+            selectedCell: {
+                _id: "",
+                day: 0,
+                year: 0,
+                month: 0,
+                dinner: {
+                    _id: "",
+                    menus: []
+                },
+                lunch: {
+                    _id: "",
+                    menus: []
+                }
+            }
+        })
     }
 
     handleNewMenuInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,20 +133,101 @@ class Container extends React.Component<IProps> {
         })
     }
 
-    addNewMenu = (event: React.KeyboardEvent<HTMLInputElement>, name: string) => {
+    deleteMenu = (name: string, index: number): void => {
+        if (name === 'lunch') {
+            const currentLunchs = this.state.selectedCell.lunch.menus
+            const updatedLunchs: string[] = currentLunchs.filter((menu, i) => {
+                if (i === index) {
+                    return false
+                } else {
+                    return true
+                }
+            })
+            const updatedSelectedCell: IMenu = {
+                ...this.state.selectedCell,
+                lunch: {
+                    ...this.state.selectedCell.lunch,
+                    menus: updatedLunchs
+                }
+            }
+            this.setState({
+                selectedCell: updatedSelectedCell
+            })
+
+        } else {
+            const currentDinners = this.state.selectedCell.dinner.menus
+            const updatedDinners: string[] = currentDinners.filter((menu, i) => {
+                if (i === index) {
+                    return false
+                } else {
+                    return true
+                }
+            })
+            const updatedSelectedCell: IMenu = {
+                ...this.state.selectedCell,
+                dinner: {
+                    ...this.state.selectedCell.dinner,
+                    menus: updatedDinners
+                }
+            }
+            this.setState({
+                selectedCell: updatedSelectedCell
+            })
+        }
+    }
+
+    addNewMenu = (event: React.KeyboardEvent<HTMLDivElement>, name: string): void => {
         const key = event.key
         const { selectedCell } = this.state
+
+        console.log('key: ', key)
+
+
         if (key === 'Enter') {
             // 새로운 메뉴 추가
-            console.log("Enter Clicked")
-            console.log('name: ', name)
-            console.log('selected menu: ', selectedCell)
 
+            const newLunch = this.state.newLunch
+            const newDinner = this.state.newDinner
 
             this.setState({
                 newLunch: "",
                 newDinner: ""
             })
+
+
+            if (name === 'newLunch') {
+                const updatedMenu: IMenu = {
+                    ...selectedCell,
+                    lunch: {
+                        _id: selectedCell.lunch._id,
+                        menus: [
+                            ...selectedCell.lunch.menus,
+                            newLunch
+                        ]
+                    }
+                }
+
+                this.setState({
+                    selectedCell: updatedMenu
+                })
+            } else {
+                const updatedMenu: IMenu = {
+                    ...selectedCell,
+                    dinner: {
+                        _id: selectedCell.dinner._id,
+                        menus: [
+                            ...selectedCell.dinner.menus,
+                            newDinner
+                        ]
+                    }
+                }
+                this.setState({
+                    selectedCell: updatedMenu
+                })
+            }
+
+
+
         }
     }
 
@@ -153,6 +267,43 @@ class Container extends React.Component<IProps> {
         })
     }
 
+    leftArrowClicked = () => {
+        let { year, month } = this.state
+        if (month === 0) {
+            year = year - 1
+            month = 11
+            this.setState({
+                year,
+                month
+            })
+            this.setDaysAndOffDays(year, month)
+        } else {
+            month = month - 1
+            this.setState({
+                month
+            })
+            this.setDaysAndOffDays(year, month)
+        }
+    }
+
+    rightArrowClicked = () => {
+        const { year, month } = this.state
+        if (month === 11) {
+            this.setState({
+                month: 0,
+                year: year + 1
+            })
+            this.setDaysAndOffDays(year + 1, 0)
+        } else {
+            this.setState({
+                month: month + 1,
+            })
+            this.setDaysAndOffDays(year, month + 1)
+        }
+
+    }
+
+
     setMenuObjects = (year: number, month: number) => {
         this.props.fetchMenus(year, month)
     }
@@ -163,8 +314,10 @@ class Container extends React.Component<IProps> {
         const week = ['일', '월', '화', '수', '목', '금', '토']
         const dayOfWeek = week[new Date(year, month, 1).getDay()];
         const offdays = this.getOffDays(dayOfWeek)
-        const days = new Date(year, month, 0).getDate()
 
+        // 해당 년과 월에 몇일까지 있는지 계산
+        const days = 32 - new Date(year, month, 32).getDate()
+        console.log(`${year}년 ${month + 1}월에는 ${days} 만큼의 일이 있습니다. `)
 
         this.setState({
             days,
@@ -217,5 +370,6 @@ const mapStateToProps = (state: IState) => {
 }
 
 export default connect(mapStateToProps, {
-    fetchMenus
+    fetchMenus,
+    putNewMenu
 })(Container)
