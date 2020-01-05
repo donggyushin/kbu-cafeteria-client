@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+div.react-datepicker-wrapper > div > input[type=text] {
+  border-radius: 4px;
+    border: 0;
+    padding: 7px;
+    font-size: 12px;
+    /* box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75); */
+    box-shadow: 0px 0px 5px 0px rgba(230,218,230,1);
+}

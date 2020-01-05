@@ -1,35 +1,35 @@
 import React from 'react'
 import styled from 'styled-components'
-import DatePicker from './DatePicker'
+import DatePicker from 'react-datepicker'
 
 interface IProps {
-    handleFromDateChange: (date: Date) => void
     handleToDateChange: (date: Date) => void
-    fromDate: Date
     toDate: Date
 }
 
 const Container = styled.div`
-    width:100%;
     display:flex;
     flex-direction:column;
     align-items:center;
 `
+const Text = styled.div`
+    margin-bottom: 10px;
+`
 
 const Presenter: React.FC<IProps> = ({
-    handleFromDateChange,
     handleToDateChange,
-    fromDate,
     toDate
 }) => {
     return <Container>
+        <Text>
+            TO
+        </Text>
         <DatePicker
-            handleFromDateChange={handleFromDateChange}
-            handleToDateChange={handleToDateChange}
-            fromDate={fromDate}
-            toDate={toDate}
+            selected={toDate}
+            onChange={handleToDateChange}
         />
     </Container>
 }
+
 
 export default Presenter
