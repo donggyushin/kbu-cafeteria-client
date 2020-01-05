@@ -9,6 +9,7 @@ interface IProps {
     handleToDateChange: (date: Date) => void
     fromDate: Date
     toDate: Date
+    nextButtonClicked: () => void
 }
 
 const Container = styled.div`
@@ -59,7 +60,8 @@ const Presenter: React.FC<IProps> = ({
     fromDate,
     toDate,
     handleFromDateChange,
-    handleToDateChange
+    handleToDateChange,
+    nextButtonClicked
 }) => {
     // The first commit of Material-UI
 
@@ -81,7 +83,9 @@ const Presenter: React.FC<IProps> = ({
             </PickerContainer>
         </UpperContainer>
         <LowerContainer>
-            <NextButton />
+            <NextButton
+                nextButtonClicked={nextButtonClicked}
+            />
         </LowerContainer>
 
 

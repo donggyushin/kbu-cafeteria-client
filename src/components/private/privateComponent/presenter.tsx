@@ -7,6 +7,7 @@ import {
 import MainComponent from '../Main';
 import PostMenu from '../PostMenu';
 import MenuView from '../MenuView';
+import Menus from '../Menus';
 
 const Presenter: React.FC = () => {
     return <Router>
@@ -16,6 +17,9 @@ const Presenter: React.FC = () => {
             </Route>
             <Route path={'/view'}>
                 <MenuView />
+            </Route>
+            <Route path={'/menus/:date1/:date2'}>
+                <Menus />
             </Route>
             <Route>
                 <MainComponent />

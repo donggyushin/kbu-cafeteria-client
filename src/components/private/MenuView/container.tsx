@@ -26,7 +26,8 @@ class Container extends React.Component {
     render() {
         const {
             handleFromDateChange,
-            handleToDateChange
+            handleToDateChange,
+            nextButtonClicked
         } = this
 
         const {
@@ -38,7 +39,20 @@ class Container extends React.Component {
             handleToDateChange={handleToDateChange}
             fromDate={fromDate}
             toDate={toDate}
+            nextButtonClicked={nextButtonClicked}
         />
+    }
+
+    nextButtonClicked = () => {
+        const {
+            fromDate,
+            toDate
+        } = this.state
+
+        const from: number = fromDate.getTime()
+        const to: number = toDate.getTime()
+
+        window.location.href = `/menus/${from}/${to}`
     }
 
     handleFromDateChange = (date: Date) => {

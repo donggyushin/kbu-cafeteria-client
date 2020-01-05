@@ -7,6 +7,7 @@ interface IProps {
     handleToDateChange: (date: Date) => void
     fromDate: Date
     toDate: Date
+    nextButtonClicked: () => void
 }
 
 const Container = styled.div`
@@ -20,7 +21,8 @@ const Presenter: React.FC<IProps> = ({
     handleFromDateChange,
     handleToDateChange,
     fromDate,
-    toDate
+    toDate,
+    nextButtonClicked
 }) => {
     return <Container>
         <DatePicker
@@ -28,6 +30,7 @@ const Presenter: React.FC<IProps> = ({
             handleToDateChange={handleToDateChange}
             fromDate={fromDate}
             toDate={toDate}
+            nextButtonClicked={nextButtonClicked}
         />
     </Container>
 }
