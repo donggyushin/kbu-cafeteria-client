@@ -61,11 +61,13 @@ const Presenter: React.FC<IProps> = ({
                 newDaily={newDaily}
                 handleNewMenuInput={handleNewMenuInput}
                 dailyMenus={menu.daily.menus}
+                deleteMenu={deleteMenu}
             />
             <FixMenuForm
                 addNewMenu={addNewMenu}
                 newFix={newFix}
                 fixMenus={menu.fix.menus}
+                deleteMenu={deleteMenu}
                 handleNewMenuInput={handleNewMenuInput}
             />
         </ListContainer>

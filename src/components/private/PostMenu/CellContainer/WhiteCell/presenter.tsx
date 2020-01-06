@@ -15,6 +15,7 @@ const Container = styled.div`
 
 const Day = styled.div`
     margin-left:3px;
+    color:gray;
 `
 
 const InnerContainer = styled.div`
@@ -33,7 +34,7 @@ const Column = styled.div`
 `
 
 const LunchLabel = styled.div`
-    background: #2ecc71;
+    background: #273c75;
     color: white;
     border-radius: 5px;
     padding: 2px;
@@ -52,7 +53,7 @@ const DinnerLabel = styled.div`
 
 const Menu = styled.div`
     font-size:11px;
-    color:gray;
+    color:black;
 `
 
 const Presenter: React.FC<IProps> = ({

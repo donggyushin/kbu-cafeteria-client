@@ -17,7 +17,7 @@ a {
     margin: 10px;
     border-radius: 30%;
     box-shadow: 0 5px 15px -5px #00000070;
-    color: #3498db;
+    color: #273c75;
     overflow: hidden;
     position: relative;
   }
@@ -46,7 +46,7 @@ a {
     position: absolute;
     width: 120%;
     height: 120%;
-    background: #3498db;
+    background: #273c75;
     transform: rotate(45deg);
     left: -110%;
     top: 90%;

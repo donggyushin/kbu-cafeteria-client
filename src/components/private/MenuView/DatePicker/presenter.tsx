@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import FromPicker from './FromPicker';
 import ToPicker from './ToPicker';
 import NextButton from './Button';
+import GlobalNavigationBar from '../../../global/GlobalNavigation';
 
 interface IProps {
     handleFromDateChange: (date: Date) => void
@@ -21,12 +22,13 @@ const Container = styled.div`
 
 const UpperContainer = styled.div`
     width:100%;
-    height:475px;
+    height:425px;
     background:#216ba5;
     color:white;
     display:flex;
     flex-direction:column;
     align-items:center;
+    padding-top:50px;
 `
 
 const LowerContainer = styled.div`
@@ -41,7 +43,7 @@ const BigText = styled.div`
     font-size: 34px;
     font-weight: 600;
     line-height: 1.2;
-    margin-top: 130px;
+    margin-top: 80px;
     margin-bottom: 22px;
 `
 
@@ -66,10 +68,14 @@ const Presenter: React.FC<IProps> = ({
     // The first commit of Material-UI
 
     return <Container>
+
         <UpperContainer>
+            <GlobalNavigationBar
+                background={'white'}
+            />
             <BigText>
                 PICK DATE
-        </BigText>
+            </BigText>
             <PickerContainer>
                 <FromPicker
                     fromDate={fromDate}

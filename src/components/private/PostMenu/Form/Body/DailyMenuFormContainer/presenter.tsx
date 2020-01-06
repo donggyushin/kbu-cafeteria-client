@@ -27,6 +27,7 @@ interface IProps {
     newDaily: string
     handleNewMenuInput: (event: React.ChangeEvent<HTMLInputElement>) => void
     dailyMenus: string[]
+    deleteMenu: (name: string, index: number) => void
 }
 
 const Container = styled.div`
@@ -45,7 +46,8 @@ const Presenter: React.FC<IProps> = ({
     addNewMenu,
     newDaily,
     handleNewMenuInput,
-    dailyMenus
+    dailyMenus,
+    deleteMenu
 }) => {
     const classes = useStyles()
     return <Container>
@@ -65,7 +67,13 @@ const Presenter: React.FC<IProps> = ({
         />
         <ListContainer>
             {dailyMenus.map((daily, i) => {
-                return <List text={daily} key={i} />
+                return <List
+                    text={daily}
+                    key={i}
+                    name={'daily'}
+                    index={i}
+                    deleteMenu={deleteMenu}
+                />
             })}
         </ListContainer>
     </Container>

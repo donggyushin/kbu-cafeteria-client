@@ -5,6 +5,7 @@ import CalendarHeader from './Header'
 import CellContainer from './CellContainer'
 import { IMenu } from '../../../types'
 import Form from './Form'
+import GlobalNavigationBar from '../../global/GlobalNavigation'
 
 interface IProps {
     year: number
@@ -58,6 +59,9 @@ const Presenter: React.FC<IProps> = ({
     newFix
 }) => {
     return <Container>
+        <GlobalNavigationBar
+            background={'#273c75'}
+        />
         <Navigation
             year={year}
             month={month}

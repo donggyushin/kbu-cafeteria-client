@@ -28,6 +28,7 @@ interface IProps {
     newFix: string
     handleNewMenuInput: (event: React.ChangeEvent<HTMLInputElement>) => void
     fixMenus: string[]
+    deleteMenu: (name: string, index: number) => void
 }
 
 const Container = styled.div`
@@ -46,7 +47,8 @@ const Presenter: React.FC<IProps> = ({
     addNewMenu,
     newFix,
     handleNewMenuInput,
-    fixMenus
+    fixMenus,
+    deleteMenu
 }) => {
     const classes = useStyles()
     return <Container>
@@ -66,7 +68,13 @@ const Presenter: React.FC<IProps> = ({
         />
         <ListContainer>
             {fixMenus.map((menu, i) => {
-                return <List text={menu} key={i} />
+                return <List
+                    text={menu}
+                    key={i}
+                    name={'fix'}
+                    deleteMenu={deleteMenu}
+                    index={i}
+                />
             })}
         </ListContainer>
     </Container>

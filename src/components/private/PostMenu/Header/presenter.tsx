@@ -26,7 +26,7 @@ const BlueCell = styled.div`
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#3498db;
+    background:#273c75;
     color:white;
     border:1px solid white;
 `

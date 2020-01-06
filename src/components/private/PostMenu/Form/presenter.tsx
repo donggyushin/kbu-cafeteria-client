@@ -41,6 +41,8 @@ const Card = styled.div`
     align-items:center;
     position: relative;
     overflow-y:scroll;
+    padding-top:20px;
+    padding-bottom:20px;
 `
 
 const SubmitButtonContainer = styled.div`

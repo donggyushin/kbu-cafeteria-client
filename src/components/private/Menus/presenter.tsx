@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import MenusContainer from './MenusContainer'
 import { IMenu } from '../../../types'
+import GlobalNavigationBar from '../../global/GlobalNavigation'
 
 interface IProps {
     loading: boolean
@@ -16,6 +17,12 @@ const Container = styled.div`
     justify-content:center;
     flex-direction:column;
     background:#f5f5f5;
+    position:relative;
+`
+
+const NavigationButtonContainer = styled.div`
+    position:absolute;
+    top:20px;
 `
 
 const Presenter: React.FC<IProps> = ({
@@ -23,6 +30,11 @@ const Presenter: React.FC<IProps> = ({
     menus
 }) => {
     return <Container>
+        <NavigationButtonContainer>
+            <GlobalNavigationBar
+                background={'#273c75'}
+            />
+        </NavigationButtonContainer>
         <MenusContainer
             loading={loading}
             menus={menus}
