@@ -24,6 +24,8 @@ interface IProps {
     submitButtonClicked: () => void
     rightArrowClicked: () => void
     leftArrowClicked: () => void
+    newDaily: string
+    newFix: string
 }
 
 const Container = styled.div`
@@ -51,7 +53,9 @@ const Presenter: React.FC<IProps> = ({
     deleteMenu,
     submitButtonClicked,
     rightArrowClicked,
-    leftArrowClicked
+    leftArrowClicked,
+    newDaily,
+    newFix
 }) => {
     return <Container>
         <Navigation
@@ -77,6 +81,8 @@ const Presenter: React.FC<IProps> = ({
             handleNewMenuInput={handleNewMenuInput}
             deleteMenu={deleteMenu}
             submitButtonClicked={submitButtonClicked}
+            newDaily={newDaily}
+            newFix={newFix}
         />}
     </Container>
 }

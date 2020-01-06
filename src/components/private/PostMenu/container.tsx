@@ -13,6 +13,8 @@ interface IStateTypes {
     selectedCell: IMenu
     newLunch: string
     newDinner: string
+    newFix: string
+    newDaily: string
 }
 
 interface IProps {
@@ -22,7 +24,7 @@ interface IProps {
     putNewMenu: (menu: IMenu) => void
 }
 
-class Container extends React.Component<IProps> {
+class Container extends React.Component<IProps, IStateTypes> {
     state: IStateTypes = {
         year: new Date().getFullYear(),
         month: new Date().getMonth(),
@@ -41,10 +43,20 @@ class Container extends React.Component<IProps> {
             lunch: {
                 _id: "",
                 menus: []
+            },
+            fix: {
+                _id: "",
+                menus: ['돈까스', '비빔밥']
+            },
+            daily: {
+                _id: "",
+                menus: []
             }
         },
         newLunch: "",
-        newDinner: ""
+        newDinner: "",
+        newDaily: "",
+        newFix: ""
     }
 
     componentDidMount() {
@@ -64,7 +76,9 @@ class Container extends React.Component<IProps> {
             form,
             selectedCell,
             newLunch,
-            newDinner
+            newDinner,
+            newDaily,
+            newFix
         } = this.state
         const {
             onClickCell,
@@ -98,30 +112,45 @@ class Container extends React.Component<IProps> {
             submitButtonClicked={submitButtonClicked}
             rightArrowClicked={rightArrowClicked}
             leftArrowClicked={leftArrowClicked}
+            newDaily={newDaily}
+            newFix={newFix}
         />
     }
 
     submitButtonClicked = () => {
         const menuObject: IMenu = this.state.selectedCell
+        const updatedSelectedCell: IMenu = {
+            _id: "",
+            day: 0,
+            year: 0,
+            month: 0,
+            dinner: {
+                _id: "",
+                menus: []
+            },
+            lunch: {
+                _id: "",
+                menus: []
+            },
+            fix: {
+                _id: "",
+                menus: []
+            },
+            daily: {
+                _id: "",
+                menus: []
+            }
+        }
+
+        console.log(`menuObject:${menuObject.fix.menus}`)
 
         this.props.putNewMenu(menuObject)
 
+
+
         this.setState({
             form: false,
-            selectedCell: {
-                _id: "",
-                day: 0,
-                year: 0,
-                month: 0,
-                dinner: {
-                    _id: "",
-                    menus: []
-                },
-                lunch: {
-                    _id: "",
-                    menus: []
-                }
-            }
+            selectedCell: updatedSelectedCell
         })
     }
 
@@ -129,6 +158,7 @@ class Container extends React.Component<IProps> {
         const name: string = event.target.name
         const value: string = event.target.value
         this.setState({
+            ...this.state,
             [name]: value
         })
     }
@@ -154,7 +184,7 @@ class Container extends React.Component<IProps> {
                 selectedCell: updatedSelectedCell
             })
 
-        } else {
+        } else if (name === 'dinner') {
             const currentDinners = this.state.selectedCell.dinner.menus
             const updatedDinners: string[] = currentDinners.filter((menu, i) => {
                 if (i === index) {
@@ -173,6 +203,44 @@ class Container extends React.Component<IProps> {
             this.setState({
                 selectedCell: updatedSelectedCell
             })
+        } else if (name === 'fix') {
+            const currentFixs = this.state.selectedCell.fix.menus
+            const updatedFixs: string[] = currentFixs.filter((menu, i) => {
+                if (i === index) {
+                    return false
+                } else {
+                    return true
+                }
+            })
+            const updatedSelectedCell: IMenu = {
+                ...this.state.selectedCell,
+                fix: {
+                    ...this.state.selectedCell.fix,
+                    menus: updatedFixs
+                }
+            }
+            this.setState({
+                selectedCell: updatedSelectedCell
+            })
+        } else if (name === 'daily') {
+            const currentDaily = this.state.selectedCell.daily.menus
+            const updatedDaily: string[] = currentDaily.filter((menu, i) => {
+                if (i === index) {
+                    return false
+                } else {
+                    return true
+                }
+            })
+            const updatedSelectedCell: IMenu = {
+                ...this.state.selectedCell,
+                daily: {
+                    ...this.state.selectedCell.daily,
+                    menus: updatedDaily
+                }
+            }
+            this.setState({
+                selectedCell: updatedSelectedCell
+            })
         }
     }
 
@@ -180,18 +248,19 @@ class Container extends React.Component<IProps> {
         const key = event.key
         const { selectedCell } = this.state
 
-        console.log('key: ', key)
-
-
         if (key === 'Enter') {
             // 새로운 메뉴 추가
 
             const newLunch = this.state.newLunch
             const newDinner = this.state.newDinner
+            const newFix = this.state.newFix
+            const newDaily = this.state.newDaily
 
             this.setState({
                 newLunch: "",
-                newDinner: ""
+                newDinner: "",
+                newDaily: "",
+                newFix: ""
             })
 
 
@@ -210,7 +279,7 @@ class Container extends React.Component<IProps> {
                 this.setState({
                     selectedCell: updatedMenu
                 })
-            } else {
+            } else if (name === 'newDinner') {
                 const updatedMenu: IMenu = {
                     ...selectedCell,
                     dinner: {
@@ -218,6 +287,34 @@ class Container extends React.Component<IProps> {
                         menus: [
                             ...selectedCell.dinner.menus,
                             newDinner
+                        ]
+                    }
+                }
+                this.setState({
+                    selectedCell: updatedMenu
+                })
+            } else if (name === 'newFix') {
+                const updatedMenu: IMenu = {
+                    ...selectedCell,
+                    fix: {
+                        ...selectedCell.fix,
+                        menus: [
+                            ...selectedCell.fix.menus,
+                            newFix
+                        ]
+                    }
+                }
+                this.setState({
+                    selectedCell: updatedMenu
+                })
+            } else if (name === 'newDaily') {
+                const updatedMenu: IMenu = {
+                    ...selectedCell,
+                    daily: {
+                        ...selectedCell.daily,
+                        menus: [
+                            ...selectedCell.daily.menus,
+                            newDaily
                         ]
                     }
                 }
@@ -233,6 +330,7 @@ class Container extends React.Component<IProps> {
 
     xbuttonClicked = (): void => {
         this.setState({
+            ...this.state,
             form: false,
             selectedCell: {
                 _id: "",
@@ -246,8 +344,20 @@ class Container extends React.Component<IProps> {
                 lunch: {
                     _id: "",
                     menus: []
+                },
+                fix: {
+                    _id: "",
+                    menus: []
+                },
+                daily: {
+                    _id: "",
+                    menus: []
                 }
-            }
+            },
+            newDaily: "",
+            newDinner: "",
+            newFix: "",
+            newLunch: ""
         })
     }
 

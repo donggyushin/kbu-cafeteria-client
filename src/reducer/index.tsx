@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import user from './user'
 import menu from './menu'
+import menuBoard from './menuBoard'
 import loading from './loading'
 
 const intialState = {}
@@ -9,7 +10,8 @@ const intialState = {}
 const allReducers = combineReducers({
     user,
     loading,
-    menu
+    menu,
+    menuBoard
 })
 
 

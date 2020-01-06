@@ -14,6 +14,8 @@ interface IProps {
     handleNewMenuInput: (event: React.ChangeEvent<HTMLInputElement>) => void
     deleteMenu: (name: string, index: number) => void
     submitButtonClicked: () => void
+    newDaily: string
+    newFix: string
 }
 
 const Container = styled.div`
@@ -38,12 +40,11 @@ const Card = styled.div`
     flex-direction:column;
     align-items:center;
     position: relative;
+    overflow-y:scroll;
 `
 
 const SubmitButtonContainer = styled.div`
-    position:absolute;
-    bottom:50px;
-    
+    margin-top:20px;
 `
 
 const Presenter: React.FC<IProps> = ({
@@ -54,7 +55,9 @@ const Presenter: React.FC<IProps> = ({
     newDinner,
     handleNewMenuInput,
     deleteMenu,
-    submitButtonClicked
+    submitButtonClicked,
+    newDaily,
+    newFix
 }) => {
     return <Container>
         <Card>
@@ -71,6 +74,8 @@ const Presenter: React.FC<IProps> = ({
                 newDinner={newDinner}
                 handleNewMenuInput={handleNewMenuInput}
                 deleteMenu={deleteMenu}
+                newDaily={newDaily}
+                newFix={newFix}
             />
             <SubmitButtonContainer>
                 <Button
@@ -81,7 +86,6 @@ const Presenter: React.FC<IProps> = ({
                     제출하기
             </Button>
             </SubmitButtonContainer>
-
         </Card>
     </Container>
 }

@@ -1,22 +1,29 @@
 import React from 'react'
 import Presenter from './presenter'
 import { RouteComponentProps, withRouter } from 'react-router'
-import axios from 'axios'
-import { KBU_CAFETERIA_SERVER } from '../../../consts'
+import { connect } from 'react-redux'
+import { IState, IMenu } from '../../../types'
+import { fetchMenuBoards } from '../../../actions/menuBoard'
 
 interface IUrlParams {
     date1: string
     date2: string
 }
 
-interface IState {
+interface IStateProps {
     date1: string
     date2: string
 }
 
-class Container extends React.Component<RouteComponentProps<IUrlParams>> {
+interface IProps {
+    fetchMenuBoards: (date1: string, date2: string) => void
+    loading: boolean
+    menus: IMenu[]
+}
 
-    state: IState = {
+class Container extends React.Component<RouteComponentProps<IUrlParams> & IProps> {
+
+    state: IStateProps = {
         date1: "",
         date2: ""
     }
@@ -31,19 +38,29 @@ class Container extends React.Component<RouteComponentProps<IUrlParams>> {
             date2
         })
 
-        // 테스트입니다.
-        axios.get(`${KBU_CAFETERIA_SERVER}menu/menus/${date1}/${date2}`)
-            .then(res => res.data)
-            .then(data => {
-                console.log('data: ', data)
-            })
-            .catch(err => console.error(err))
+        this.props.fetchMenuBoards(date1, date2)
 
     }
 
     render() {
-        return <Presenter />
+        const {
+            loading,
+            menus
+        } = this.props
+        return <Presenter
+            loading={loading}
+            menus={menus}
+        />
     }
 }
 
-export default withRouter(Container)
+const mapStateToProps = (state: IState) => {
+    return {
+        loading: state.menuBoard.loading,
+        menus: state.menuBoard.menus
+    }
+}
+
+export default connect(mapStateToProps, {
+    fetchMenuBoards
+})(withRouter(Container))

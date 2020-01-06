@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { IMenu } from '../../../../../types'
 import Form from './Form'
 import List from './List'
+import DailyMenuForm from './DailyMenuFormContainer'
+import FixMenuForm from './FixMenuForm'
 
 interface IProps {
     menu: IMenu
@@ -11,6 +13,8 @@ interface IProps {
     newDinner: string
     handleNewMenuInput: (event: React.ChangeEvent<HTMLInputElement>) => void
     deleteMenu: (name: string, index: number) => void
+    newDaily: string
+    newFix: string
 }
 
 const Container = styled.div`
@@ -29,7 +33,9 @@ const Presenter: React.FC<IProps> = ({
     newLunch,
     newDinner,
     handleNewMenuInput,
-    deleteMenu
+    deleteMenu,
+    newDaily,
+    newFix
 }) => {
     return <Container>
         <Form
@@ -47,6 +53,20 @@ const Presenter: React.FC<IProps> = ({
             <List menus={menu.dinner.menus}
                 deleteMenu={deleteMenu}
                 name={'dinner'}
+            />
+        </ListContainer>
+        <ListContainer>
+            <DailyMenuForm
+                addNewMenu={addNewMenu}
+                newDaily={newDaily}
+                handleNewMenuInput={handleNewMenuInput}
+                dailyMenus={menu.daily.menus}
+            />
+            <FixMenuForm
+                addNewMenu={addNewMenu}
+                newFix={newFix}
+                fixMenus={menu.fix.menus}
+                handleNewMenuInput={handleNewMenuInput}
             />
         </ListContainer>
     </Container>

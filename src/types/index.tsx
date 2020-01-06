@@ -3,6 +3,16 @@ export interface IDinner {
     menus: string[]
 }
 
+export interface IFix {
+    _id: string
+    menus: string[]
+}
+
+export interface IDaily {
+    _id: string
+    menus: string[]
+}
+
 export interface ILunch {
     _id: string
     menus: string[]
@@ -15,6 +25,8 @@ export interface IMenu {
     day: number
     lunch: ILunch
     dinner: IDinner
+    fix: IFix
+    daily: IDaily
 }
 
 export interface IMenuReducerProps {
@@ -34,7 +46,8 @@ export interface ILoading {
 }
 
 export interface IState {
-    user: IUser,
+    user: IUser
     loading: ILoading
     menu: IMenuReducerProps
+    menuBoard: IMenuReducerProps
 }
