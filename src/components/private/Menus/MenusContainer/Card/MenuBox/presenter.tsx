@@ -6,15 +6,26 @@ import Menu from './Menu'
 interface IProps {
     menus: string[]
     name: string
+    height: number
 }
 
-const Container = styled.div``
+interface IContainer {
+    height: number
+}
+
+const Container = styled.div`
+    border-bottom:1px solid #dcdde1;
+    height:${(props: IContainer) => `${props.height}px`};
+`
 
 const Presenter: React.FC<IProps> = ({
     menus,
-    name
+    name,
+    height
 }) => {
-    return <Container>
+    return <Container
+        height={height}
+    >
         <Header
             name={name}
         />

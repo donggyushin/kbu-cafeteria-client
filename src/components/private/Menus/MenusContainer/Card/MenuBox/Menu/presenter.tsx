@@ -11,6 +11,7 @@ const Container = styled.div`
     margin-left:8px;
     margin-top:4px;
     margin-bottom:4px;
+    padding-left:7px;
 `
 const Circle = styled.div`
     width:5px;
@@ -24,7 +25,7 @@ const Presenter: React.FC<IProps> = ({
     text
 }) => {
     return <Container>
-        <Circle />
+        {/* <Circle /> */}
         {text}
     </Container>
 }

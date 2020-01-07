@@ -39,18 +39,22 @@ const Presenter: React.FC<IProps> = ({
         <MenuBox
             menus={lunch.menus}
             name={'중식'}
+            height={180}
         />
         <MenuBox
             menus={dinner.menus}
             name={'석식'}
+            height={180}
         />
         <MenuBox
             menus={daily.menus}
             name={'데일리'}
+            height={100}
         />
         <MenuBox
             menus={fix.menus}
             name={'고정 메뉴'}
+            height={106}
         />
     </Container>
 }

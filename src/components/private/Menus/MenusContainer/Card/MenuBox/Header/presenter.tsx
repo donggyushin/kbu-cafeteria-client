@@ -10,14 +10,18 @@ const Container = styled.div`
 `
 
 const Text = styled.div`
-    background:#273c75;
+    /* background:#273c75;
     color:white;
     font-size:11px;
     padding:2.5px;
     margin-top:3px;
     margin-left:3px;
     font-weight:600;
-    border-radius:4px;
+    border-radius:4px; */
+    margin-left:7px;
+    margin-bottom:4px;
+    font-weight:600;
+    margin-top:4px;
 `
 
 const Presenter: React.FC<IProps> = ({
