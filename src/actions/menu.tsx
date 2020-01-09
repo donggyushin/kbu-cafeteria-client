@@ -21,6 +21,10 @@ export const putNewMenu = (menu: IMenu) => (dispatch: Dispatch<IPutNewMenuDispat
     })
     axios.put(`${KBU_CAFETERIA_SERVER}menu`, {
         menu
+    }, {
+        headers: {
+            'authentication': localStorage.getItem('tk')
+        }
     })
         .then(res => res.data)
         .then((data: IPutNewMenuResponse) => {
@@ -65,7 +69,11 @@ export const fetchMenus = (year: number, month: number) => (dispatch: Dispatch<I
         type: TURN_ON_LOADING,
         menus: []
     })
-    axios.get(`${KBU_CAFETERIA_SERVER}menu/${year}/${month}`)
+    axios.get(`${KBU_CAFETERIA_SERVER}menu/${year}/${month}`, {
+        headers: {
+            'authentication': localStorage.getItem('tk')
+        }
+    })
         .then(res => res.data)
         .then((data: IFetchMenusResponseData) => {
             const { ok, error, menus } = data
@@ -81,7 +89,7 @@ export const fetchMenus = (year: number, month: number) => (dispatch: Dispatch<I
                 return
             } else {
                 console.error(`Error occured at [${__dirname}]:${error}`)
-                alert(`${year}년 ${month}월 메뉴들을 요청하던 도중에 에러가 발생하였습니다.`)
+                alert(`${year}년 ${month + 1}월 메뉴들을 요청하던 도중에 에러가 발생하였습니다.`)
                 window.location.href = '/'
                 dispatch({
                     type: TURN_DOWN_LOADING,

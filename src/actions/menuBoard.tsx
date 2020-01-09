@@ -17,7 +17,11 @@ interface IfetchMenuBoardsResponse {
 }
 
 export const fetchMenuBoards = (date1: string, date2: string) => (dispatch: Dispatch<IDispatch>) => {
-    axios.get(`${KBU_CAFETERIA_SERVER}menu/menus/${date1}/${date2}`)
+    axios.get(`${KBU_CAFETERIA_SERVER}menu/menus/${date1}/${date2}`, {
+        headers: {
+            'authentication': localStorage.getItem('tk')
+        }
+    })
         .then(res => res.data)
         .then(data => {
             const {
