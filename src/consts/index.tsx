@@ -15,6 +15,6 @@ if (dev) {
     KBU_CAFETERIA_SERVER = 'http://localhost:4001/api/'
 } else {
     // 나중에 이곳을 처리해주어야 함. 
-    KBU_CAFETERIA_SERVER = 'http://15.165.99.75:4001/api/'
+    KBU_CAFETERIA_SERVER = 'https://cafeteria.kbucard.com:4001/api/'
 }
 
