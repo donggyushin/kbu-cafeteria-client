@@ -15,6 +15,8 @@ interface IStateTypes {
     newDinner: string
     newFix: string
     newDaily: string
+    dailyPrice: number
+    fixPrice: number
 }
 
 interface IProps {
@@ -40,23 +42,29 @@ class Container extends React.Component<IProps, IStateTypes> {
                 _id: "",
                 menus: []
             },
+            dinnerPrice: 3000,
             lunch: {
                 _id: "",
                 menus: []
             },
+            lunchPrice: 3000,
             fix: {
                 _id: "",
-                menus: ['돈까스', '비빔밥']
+                menus: []
             },
+            fixPrices: [],
             daily: {
                 _id: "",
                 menus: []
-            }
+            },
+            dailyPrices: []
         },
         newLunch: "",
         newDinner: "",
         newDaily: "",
-        newFix: ""
+        newFix: "",
+        dailyPrice: 0,
+        fixPrice: 0
     }
 
     componentDidMount() {
@@ -78,7 +86,9 @@ class Container extends React.Component<IProps, IStateTypes> {
             newLunch,
             newDinner,
             newDaily,
-            newFix
+            newFix,
+            dailyPrice,
+            fixPrice
         } = this.state
         const {
             onClickCell,
@@ -114,7 +124,82 @@ class Container extends React.Component<IProps, IStateTypes> {
             leftArrowClicked={leftArrowClicked}
             newDaily={newDaily}
             newFix={newFix}
+            handlePrice={this.handlePrice}
+            dailyPrice={dailyPrice}
+            fixPrice={fixPrice}
+            dailyPriceInputEnterPressed={this.dailyPriceInputEnterPressed}
+            dailyPriceXButtonTapped={this.dailyPriceXButtonTapped}
+            fixPriceInputEnterPressed={this.fixPriceInputEnterPressed}
+            fixPriceXButtonTapped={this.fixPriceXButtonTapped}
         />
+    }
+
+    fixPriceXButtonTapped = (index: number) => {
+        const updatedFixPrices = this.state.selectedCell.fixPrices.filter((price, index2) => {
+            if (index == index2) {
+                return false
+            } else {
+                return true
+            }
+        })
+        this.setState({
+            ...this.state,
+            selectedCell: {
+                ...this.state.selectedCell,
+                fixPrices: updatedFixPrices
+            }
+        })
+    }
+
+    dailyPriceXButtonTapped = (index: number) => {
+        const updatedDailyPrices = this.state.selectedCell.dailyPrices.filter((price, index2) => {
+            if (index == index2) {
+                return false
+            } else {
+                return true
+            }
+        })
+        this.setState({
+            ...this.state,
+            selectedCell: {
+                ...this.state.selectedCell,
+                dailyPrices: updatedDailyPrices
+            }
+        })
+    }
+
+    fixPriceInputEnterPressed = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        const key = event.key
+        if (key === 'Enter') {
+            this.setState({
+                ...this.state,
+                selectedCell: {
+                    ...this.state.selectedCell,
+                    fixPrices: [
+                        ...this.state.selectedCell.fixPrices,
+                        this.state.fixPrice
+                    ]
+                },
+                fixPrice: 0
+            })
+        }
+    }
+
+    dailyPriceInputEnterPressed = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        const key = event.key
+        if (key === 'Enter') {
+            this.setState({
+                ...this.state,
+                selectedCell: {
+                    ...this.state.selectedCell,
+                    dailyPrices: [
+                        ...this.state.selectedCell.dailyPrices,
+                        this.state.dailyPrice
+                    ]
+                },
+                dailyPrice: 0
+            })
+        }
     }
 
     submitButtonClicked = () => {
@@ -128,21 +213,26 @@ class Container extends React.Component<IProps, IStateTypes> {
                 _id: "",
                 menus: []
             },
+            dinnerPrice: 0,
             lunch: {
                 _id: "",
                 menus: []
             },
+            lunchPrice: 0,
             fix: {
                 _id: "",
                 menus: []
             },
+            fixPrices: [],
             daily: {
                 _id: "",
                 menus: []
-            }
+            },
+            dailyPrices: []
         }
 
-        console.log(`menuObject:${menuObject.fix.menus}`)
+        console.log("menu: ", menuObject)
+
 
         this.props.putNewMenu(menuObject)
 
@@ -151,6 +241,18 @@ class Container extends React.Component<IProps, IStateTypes> {
         this.setState({
             form: false,
             selectedCell: updatedSelectedCell
+        })
+    }
+
+    handlePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const name = event.target.name
+        const value = event.target.value
+        this.setState({
+            ...this.state,
+            selectedCell: {
+                ...this.state.selectedCell,
+                [name]: value
+            }
         })
     }
 
@@ -341,23 +443,29 @@ class Container extends React.Component<IProps, IStateTypes> {
                     _id: "",
                     menus: []
                 },
+                dinnerPrice: 0,
                 lunch: {
                     _id: "",
                     menus: []
                 },
+                lunchPrice: 0,
                 fix: {
                     _id: "",
                     menus: []
                 },
+                fixPrices: [],
                 daily: {
                     _id: "",
                     menus: []
-                }
+                },
+                dailyPrices: [],
             },
             newDaily: "",
             newDinner: "",
             newFix: "",
-            newLunch: ""
+            newLunch: "",
+            dailyPrice: 0,
+            fixPrice: 0
         })
     }
 
@@ -371,6 +479,9 @@ class Container extends React.Component<IProps, IStateTypes> {
             }
         })
         const clickedCell: IMenu = clickedCells[0]
+
+        console.log("clicked cell: ", clickedCell)
+
         this.setState({
             selectedCell: clickedCell,
             form: true

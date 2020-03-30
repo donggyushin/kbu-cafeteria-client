@@ -1,0 +1,54 @@
+.lunchPriceAndDinnerPriceContainer {
+    
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.dailyAndFixPricesContainer {
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+.dailyAndFixPriceArrayContainer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+
+.dailyAndFixPriceArrayContainer > .dailyPricesContainer {
+    
+    width: 100%;
+}
+
+.dailyAndFixPriceArrayContainer > .dailyPricesContainer > .price_container {
+    display: flex;
+}
+
+.dailyAndFixPriceArrayContainer > .dailyPricesContainer > .price_container > .price {
+    width: 100px;
+}
+
+.dailyAndFixPriceArrayContainer > .dailyPricesContainer > .price_container > .x {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.dailyAndFixPriceArrayContainer > .fixPricesContainer {
+    
+    width: 100%;
+}
+
+.dailyAndFixPriceArrayContainer > .fixPricesContainer > .price_container {
+    display: flex;
+}
+
+.dailyAndFixPriceArrayContainer > .fixPricesContainer > .price_container > .price {
+    width: 100px;
+}
+
+.dailyAndFixPriceArrayContainer > .fixPricesContainer > .price_container > .x {
+    font-weight: 600;
+    cursor: pointer;
+}

@@ -16,6 +16,13 @@ interface IProps {
     submitButtonClicked: () => void
     newDaily: string
     newFix: string
+    handlePrice: (event: React.ChangeEvent<HTMLInputElement>) => void
+    dailyPrice: number
+    fixPrice: number
+    dailyPriceInputEnterPressed: (event: React.KeyboardEvent<HTMLInputElement>) => void
+    dailyPriceXButtonTapped: (index: number) => void
+    fixPriceInputEnterPressed: (event: React.KeyboardEvent<HTMLInputElement>) => void
+    fixPriceXButtonTapped: (index: number) => void
 }
 
 const Container = styled.div`
@@ -59,7 +66,14 @@ const Presenter: React.FC<IProps> = ({
     deleteMenu,
     submitButtonClicked,
     newDaily,
-    newFix
+    newFix,
+    handlePrice,
+    dailyPrice,
+    fixPrice,
+    dailyPriceInputEnterPressed,
+    dailyPriceXButtonTapped,
+    fixPriceInputEnterPressed,
+    fixPriceXButtonTapped
 }) => {
     return <Container>
         <Card>
@@ -78,6 +92,13 @@ const Presenter: React.FC<IProps> = ({
                 deleteMenu={deleteMenu}
                 newDaily={newDaily}
                 newFix={newFix}
+                handlePrice={handlePrice}
+                dailyPrice={dailyPrice}
+                fixPrice={fixPrice}
+                dailyPriceInputEnterPressed={dailyPriceInputEnterPressed}
+                dailyPriceXButtonTapped={dailyPriceXButtonTapped}
+                fixPriceInputEnterPressed={fixPriceInputEnterPressed}
+                fixPriceXButtonTapped={fixPriceXButtonTapped}
             />
             <SubmitButtonContainer>
                 <Button

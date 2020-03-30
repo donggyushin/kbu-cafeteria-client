@@ -24,9 +24,13 @@ export interface IMenu {
     month: number
     day: number
     lunch: ILunch
+    lunchPrice: number
     dinner: IDinner
+    dinnerPrice: number
     fix: IFix
+    fixPrices: number[]
     daily: IDaily
+    dailyPrices: number[]
 }
 
 export interface IMenuReducerProps {

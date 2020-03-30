@@ -5,6 +5,8 @@ import Form from './Form'
 import List from './List'
 import DailyMenuForm from './DailyMenuFormContainer'
 import FixMenuForm from './FixMenuForm'
+import TextField from '@material-ui/core/TextField';
+import './styles.css'
 
 interface IProps {
     menu: IMenu
@@ -15,6 +17,13 @@ interface IProps {
     deleteMenu: (name: string, index: number) => void
     newDaily: string
     newFix: string
+    handlePrice: (event: React.ChangeEvent<HTMLInputElement>) => void
+    dailyPrice: number
+    fixPrice: number
+    dailyPriceInputEnterPressed: (event: React.KeyboardEvent<HTMLInputElement>) => void
+    dailyPriceXButtonTapped: (index: number) => void
+    fixPriceInputEnterPressed: (event: React.KeyboardEvent<HTMLInputElement>) => void
+    fixPriceXButtonTapped: (index: number) => void
 }
 
 const Container = styled.div`
@@ -35,7 +44,14 @@ const Presenter: React.FC<IProps> = ({
     handleNewMenuInput,
     deleteMenu,
     newDaily,
-    newFix
+    newFix,
+    handlePrice,
+    dailyPrice,
+    fixPrice,
+    dailyPriceInputEnterPressed,
+    dailyPriceXButtonTapped,
+    fixPriceInputEnterPressed,
+    fixPriceXButtonTapped
 }) => {
     return <Container>
         <Form
@@ -44,6 +60,10 @@ const Presenter: React.FC<IProps> = ({
             newDinner={newDinner}
             handleNewMenuInput={handleNewMenuInput}
         />
+        <div className="lunchPriceAndDinnerPriceContainer">
+            <TextField onChange={handlePrice} name="lunchPrice" label="중식가격" type="number" value={menu.lunchPrice} />
+            <TextField onChange={handlePrice} name="dinnerPrice" label="석식가격" type="number" value={menu.dinnerPrice} />
+        </div>
         <ListContainer>
             <List
                 menus={menu.lunch.menus}
@@ -71,6 +91,32 @@ const Presenter: React.FC<IProps> = ({
                 handleNewMenuInput={handleNewMenuInput}
             />
         </ListContainer>
+        <div className="dailyAndFixPricesContainer">
+            <TextField type="number" onKeyDown={dailyPriceInputEnterPressed} onChange={handleNewMenuInput} name="dailyPrice" label="데일리 가격" value={dailyPrice} />
+            <TextField type="number" onKeyDown={fixPriceInputEnterPressed} onChange={handleNewMenuInput} name="fixPrice" label="고정메뉴 가격" value={fixPrice} />
+        </div>
+        <div className="dailyAndFixPriceArrayContainer">
+            <div className="dailyPricesContainer">
+                {menu.dailyPrices.map((price, index) => {
+                    return <div className={"price_container"} key={index}>
+                        <div className="price">{price}</div>
+                        <div className="x" onClick={() => {
+                            dailyPriceXButtonTapped(index)
+                        }}>x</div>
+                    </div>
+                })}
+            </div>
+            <div className="fixPricesContainer">
+                {menu.fixPrices.map((price, index) => {
+                    return <div className="price_container" key={index}>
+                        <div className="price">{price}</div>
+                        <div onClick={() => {
+                            fixPriceXButtonTapped(index)
+                        }} className="x">x</div>
+                    </div>
+                })}
+            </div>
+        </div>
     </Container>
 }
 
